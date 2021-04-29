@@ -1,0 +1,162 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Weather</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <!-- css link -->
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+    <!-- flickity CSS CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+  </head>
+  <body>
+  
+
+<!-- logo -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/weather/">
+      <img src="{% static 'images/logo.png' %}" width="200px;">
+    </a>
+    <p class="float-left poppins">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"/>
+</svg> {{city}} , {{country}}
+
+
+</p>
+  </div>
+</nav>
+    
+
+<div class="container text-center search">
+  
+<form method="GET" class="">
+
+  
+<input type="search" name="city" value="{{city}}" class="shadow-lg pl-2 mt-3" placeholder="Enter the city name"> 
+<button class="px-5 mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+</svg></button>
+</form>
+</div>
+
+<div class="text-center mt-5 container shadow-sm p-5">
+   <img src="{% static 'images/cloud.png' %}" class="img-fluid" width="50px;">
+  <h3 class="poppins text-muted">Today</h3>
+  <small class="text-white poppins text-muted">{{date}}</small><br>
+  <p class="text-white poppins">{{weather}}</p>
+  <h1 class="text-white poppins display-1">{{celsius|add:"0"}}&#8451;</h1>
+  <small class="poppins text-white">{{city}}, {{country}}</small><br>
+  <small class="poppins text-white">feel likes {{feel}} </small> 
+  <small class="poppins text-white px-3">wind speed {{wind_speed}}</small>
+
+</div>
+
+
+<!-- present day weather report -->
+
+<main class="container my-5">
+ 
+<div class="row">
+  
+  <div class="col-sm-3 py-2 mt-2 shadow-lg text-center">
+    <img src="{% static 'images/pressure.png' %}">
+   <small class="text-muted poppins">Pressure</small><br>
+   <h4 class="text-white poppins">{{pressure}}</h4>
+  </div>
+
+
+  <div class="col-sm-3 py-2 mt-2 shadow-lg text-center">
+    <img src="{% static 'images/humidity.png' %}">
+   <small class="text-muted poppins">humidity</small><br>
+   <h4 class="text-white poppins">{{humidity}}</h4>
+  </div>
+
+
+  <div class="col-sm-3 py-2 mt-2 shadow-lg text-center">
+    <img src="{% static 'images/visible.png' %}">
+   <small class="text-muted poppins">visibility</small><br>
+   <h4 class="text-white poppins">{{visibility}}</h4>
+  </div>
+
+
+  <div class="col-sm-3 py-2 mt-2 shadow-lg text-center">
+    <img src="{% static 'images/temperature.png' %}">
+   <small class="text-muted poppins">fahrenheit</small><br>
+   <h4 class="text-white poppins">{{fahrenheit|add:"0"}}&#8457;</h4>
+  </div>
+</div>
+
+</main>
+
+<!-- end -->
+
+
+<!-- next five days weather forecast -->
+
+
+{% if five_days_data %}
+<div class="container-fluid my-5 next-day-report">
+  <h4 class="text-muted text-center poppins pt-5 pb-2">Next 5 Days Forecast</h4>
+
+<div class="main-carousel my-5" data-flickity='{ "imagesLoaded": true, "percentPosition": false }'>
+  
+  {% for cel_5,fr_5,wind_speed_5,weather_5,pressure_5,humidity_5,visibility_5,date_5 in five_days_data%}
+
+<div class="carousel-cell p-5 text-center shadow-lg">
+<h6 class="text-muted">{{date_5}}</h6>
+<img src="{% static 'images/logo.png' %}" class="img-fluid" width="100px;">
+<h4>{{cel_5|add:"0"}}&#8451;/{{fr_5|add:"0"}}&#8457;</h4>
+
+
+ <img src="{% static 'images/pressure.png' %}">
+   <small class="text-muted poppins">Pressure</small><br>
+   <h4 class="text-white poppins">{{pressure_5}}</h4>
+
+<hr>
+    <img src="{% static 'images/humidity.png' %}">
+   <small class="text-muted poppins">humidity</small><br>
+   <h4 class="text-white poppins">{{humidity_5}}</h4>
+<hr>
+    <img src="{% static 'images/visible.png' %}">
+   <small class="text-muted poppins">visibility</small><br>
+   <h4 class="text-white poppins">{{visibility_5}}</h4>
+<hr>
+    <img src="{% static 'images/temperature.png' %}">
+   <small class="text-muted poppins">fahrenheit</small><br>
+   <h4 class="text-white poppins">{{fr_5|add:"0"}}&#8457;</h4>
+
+
+</div>
+  {%endfor%}
+
+</div>
+</div>
+{%endif%}
+<!-- end -->
+
+
+
+
+<footer class="container-fluid mt-5 text-center">
+  
+<small class="poppins text-white">&copy; copyright 2021</small>
+
+</footer>
+
+
+<!-- flickity JavaScript CDN -->
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  </body>
+</html>
